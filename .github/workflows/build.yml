@@ -98,6 +98,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          if [ ! -f android/key.properties ]; then
+            echo "未配置固定签名，跳过发布证书校验。"
+            exit 0
+          fi
           expected='3fdc07a2297421373607c098f9b847c1377d9266ee07003b9d7fda8c4b581d8a'
           apksigner=$(find "${ANDROID_HOME}/build-tools" -name apksigner -type f 2>/dev/null | sort | tail -n1 || true)
           if [ -z "$apksigner" ]; then
